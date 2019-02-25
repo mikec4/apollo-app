@@ -88,7 +88,21 @@ const resolvers = {
              id: savedPost.id,
              user:context.currentUser
          };
-     }}
+     },
+     signIn: async (parent,args,context)=>{
+        const user = await User.findOne({name:args.name});
+            if(!user){
+                throw new Error('User not found');
+            }
+            const verifyPassword = await bcrypt.compare(args.password,user.password);
+            if(!verifyPassword){
+                throw new Error('Invalid password');
+            }
+            
+            const token = await user.generateToken();
+            return {...user._doc,token: token};
+     }
+    }
  
 }
 

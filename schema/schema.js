@@ -26,6 +26,7 @@ type Query{
 type Mutation{
     createUser(name:String!,password:String!): User!
     createPost(postInput:PostInput):Post!
+    signIn(name:String!,password:String!):User!
 }
 `;
 
